@@ -37,6 +37,23 @@ public class Robot extends TimedRobot {
 		drivebase = new Drivebase();
 	}
 
+			new Thread(() -> {
+			UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+			camera.setResolution(640, 480);
+			
+			CvSink cvSink = CameraServer.getInstance().getVideo();
+			CvSource outputStream = CameraServer.getInstance().putVideo("USBCamera0", 640, 480);
+			
+			Mat source = new Mat();
+			Mat output = new Mat();
+			
+			while(!Thread.interrupted()) {
+				cvSink.grabFrame(source);
+				Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
+				outputStream.putFrame(output);
+			}
+		}).start();
+
 	/**
 	 * This function is called once each time the robot enters Disabled mode.
 	 * You can use it to reset any subsystem information you want to clear when
