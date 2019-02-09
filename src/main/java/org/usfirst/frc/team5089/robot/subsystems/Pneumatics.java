@@ -36,10 +36,11 @@ test = new DoubleSolenoid(RobotMap.forwardEject, RobotMap.reverseEject);
     // setDefaultCommand(new MySpecialCommand());
   }
   public void compress(){
-    if(!compressor.getPressureSwitchValue())
+    compressor.setClosedLoopControl(true);
+    /*if(!compressor.getPressureSwitchValue())
       compressor.start();
     else
-      compressor.stop();
+      compressor.stop();*/
   }
   public void Grab(){
     test.set(DoubleSolenoid.Value.kForward);
